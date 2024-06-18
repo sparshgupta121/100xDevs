@@ -1,7 +1,89 @@
-h1{
-
-
-    /* border:5px dotted pink; */
-    padding: 10px;
-    box-shadow: 2px 10px 10px black;
+*{
+    padding: 0;
+    margin: 0;
 }
+
+nav{
+    display: flex;
+    box-shadow: 2px 1px 1px #eee;
+    justify-content: space-between;
+}
+
+.Navbar{
+    
+    display: flex;
+    padding-right: 100px;
+
+
+}
+
+#navElements{
+
+    padding: 20px;
+    color: gray;
+}
+
+#navElements:hover{
+
+    padding: 20px;
+    color: rgb(45, 144, 205);
+    cursor: pointer;
+}
+#logo{
+    height: 20px;
+    width: 140px;
+    padding: 20px;
+    margin-left: 100px;}
+
+    #image{
+        display: flex;
+        justify-content: center;
+        margin-top: 4%;
+        height: 80%;
+        width: 100%;
+    }
+
+    h1{
+        font-weight: 500;
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        font-size: 40px;
+
+    }
+
+    h2{
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+        font-weight: 300;
+
+
+    }
+    
+    #Button_centre{
+        display: flex;
+        justify-content: center;
+    }
+
+    #button{
+       
+        margin: 30px;
+        border:  solid rgba(0,0,0,0) !important ;       
+        background-color: #387ed1;
+        color: aliceblue;
+        font-size: 20px;
+        padding: 10px 30px;
+        border-radius: 5px;
+    }
+
+    #button:hover{
+
+        background-color: #424242;
+        cursor: pointer;
+
+
+    }
+
+
+  
