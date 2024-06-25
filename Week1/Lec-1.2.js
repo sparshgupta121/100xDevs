@@ -59,11 +59,7 @@ const person = [
  age:21,
  gender:'male'
 },
-    {
- name:'Nyasha',
- age:21,
- gender:'Female'
-},
+    
     {
  name:'Dhananjay',
  age:21,
@@ -99,3 +95,74 @@ for (let i = 0; i < arr1.length / 2; i++) {
 
 console.log(arr1);
 
+function sum(a,b,fn){
+    sum = a+b
+    fn(sum) 
+}
+
+function PrintSUm(sum){
+    console.log(`The Sum of two numbers is: ${sum}`);
+}
+
+function PassivePrintSum(sum){
+    console.log(`${sum} is the sum of two numbers`);
+}
+
+sum(5,10,PassivePrintSum)
+
+
+let countdown = 30;
+
+const countdownInterval = setInterval(() => {
+    console.log(countdown);
+    countdown--;
+
+    if (countdown < 0) {
+        clearInterval(countdownInterval);
+        console.log("Time's up!");
+    }
+}, 1000);
+
+
+// Calculate the time it takes between a setTimeout call and the inner function actually running
+
+
+const timeoutDuration = 1000; 
+
+const startTime = Date.now();
+
+setTimeout(() => {
+    const endTime = Date.now();
+
+    // Calculate the time difference
+    const elapsedTime = endTime - startTime;
+
+    console.log(`Expected delay: ${timeoutDuration} ms`);
+    console.log(`Actual delay: ${elapsedTime} ms`);
+}, timeoutDuration);
+
+
+// Create a terminal clock (HH:MM:SS)
+
+
+
+
+function padZero(number) {
+    return number < 10 ? '0' + number : number;
+}
+
+function displayClock() {
+    const now = new Date();
+    const hours = padZero(now.getHours());
+    const minutes = padZero(now.getMinutes());
+    const seconds = padZero(now.getSeconds());
+    
+    // Clear the console and display the time
+    console.clear();
+    console.log(`${hours}:${minutes}:${seconds}`);
+}
+
+setInterval(displayClock, 1000);
+
+// Initial call to display the clock immediately
+displayClock();
