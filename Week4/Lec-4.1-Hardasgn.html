@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <label for="Principal">Enter the Principal Amount: </label>
+    <input id="Principal" type="text" placeholder="Principal Amount"> <br></br>
+    <label for="Rate">Enter the Rate of Interest: </label>
+    <input id="Rate" type="text" placeholder="Rate Of Interest"> <br></br>
+    <label for="Time">Enter the Time in Years: </label>
+    <input id="Time" placeholder="Time (Years)"> 
+    <br></br>
+    <button type="submit" onclick="Calculate()">Calculate Amount & Interest gained</button>
+    <br></br>
+    <p id="Amount"></p>
+    <p id="Interest"></p>
+</body>
+
+<script>
+
+    async function Calculate() {
+
+        let Principal = document.getElementById("Principal").value;
+        
+        let Rate = document.getElementById("Rate").value;
+
+        let Time = document.getElementById("Time").value;
+
+        let response = await fetch(`https://sum-server.100xdevs.com/interest?principal=${Principal}&rate=${Rate}&time=${Time}`)
+
+        let ans =(await response.json())
+
+        document.getElementById('Amount').innerHTML = `The Total Amount including the Principal and Interest is: ${ans["total"]}`
+
+        document.getElementById('Interest').innerHTML = `The Total  Interest gained is: ${ans["interest"]}`
+  
+    }
+
+</script>
+
+</html>

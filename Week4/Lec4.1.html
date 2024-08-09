@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate sum</title>
+</head>
+<body>
+
+    <input oninput="waitTime()" placeholder="First Number" id="num1"> <br></br>
+    <input oninput="waitTime()" type="text" placeholder="Second Number" id="num2"> <br></br>
+
+    <p id="finalsum"></p>
+
+
+    <script>
+        let timeoutt;
+        function waitTime(){
+
+            clearTimeout(timeoutt);
+            
+            timeoutt =setTimeout(() => {
+                populatediv()
+            }, 1000);
+        }
+
+        async function populatediv(){
+            var num1= parseInt(document.getElementById("num1").value);
+            var num2= parseInt(document.getElementById("num2").value);
+
+            let resp =await fetch(`https://sum-server.100xdevs.com/sum?a=${num1}&b=${num2}`)
+            let ans =await resp.text()
+
+            document.getElementById("finalsum").innerHTML= ans
+
+            }                
+    </script>
+
+</body>
+</html>
