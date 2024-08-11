@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo-Basic</title>
+</head>
+<body>
+    
+    <input id="title" type="text" placeholder="title"><br></br>
+    <input id="description" placeholder="description"><br></br>
+    <button onclick="Getstate()">Get Todos</button>
+    
+    <br><br>
+
+    <div id="todos"> List of your Todos <br><br>
+    </div>
+
+</body>
+
+    <script>
+
+        // let id=1;
+
+
+        function createChild(title,description,id){
+
+            let child = document.createElement("div")
+            let GrandChild1 = document.createElement("div")
+            GrandChild1.innerHTML=title;
+            let GrandChild2 = document.createElement("div")
+            GrandChild2.innerHTML=description;
+            let GrandChild3 = document.createElement("button")
+            GrandChild3.innerHTML="Mark as Done";
+            GrandChild3.setAttribute("onClick",`Markdone(${id})`)
+            GrandChild3.setAttribute("id",id)
+            child.appendChild(GrandChild1)
+            child.appendChild(GrandChild2)
+            child.appendChild(GrandChild3)
+        
+            return child;
+            
+        }
+
+        async function Getstate(){
+            const resp = await fetch("https://sum-server.100xdevs.com/todos")
+            const ans = await resp.json()
+            const data = ans.todos
+
+            addTodo(data)
+        }
+
+        function addTodo(state){
+    
+            const parent = document.getElementById("todos")
+            parent.innerHTML="";
+            
+            for (let i = 0; i < state.length; i++) {
+                parent.appendChild(createChild(state[i].title,state[i].description,state[i].id))
+
+                
+            }
+
+        }
+
+        function Markdone(id){
+            document.getElementById(id).innerHTML="Done :)"
+        }
+
+
+    </script>
+
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo-Basic</title>
+</head>
+<body>
+    
+    <input id="title" type="text" placeholder="title"><br></br>
+    <input id="description" placeholder="description"><br></br>
+    <button id="add" onclick="addTodo()">Add Todo</button>
+    <br><br>
+
+    <div id="todos"> List of your Todos <br><br>
+    </div>
+
+    <script>
+
+        let id=1;
+
+        function createChild(title,description,id){
+
+            let child = document.createElement("div")
+            let GrandChild1 = document.createElement("div")
+            GrandChild1.innerHTML=title;
+            let GrandChild2 = document.createElement("div")
+            GrandChild2.innerHTML=description;
+            let GrandChild3 = document.createElement("button")
+            GrandChild3.innerHTML="Mark as Done";
+            GrandChild3.setAttribute("onClick",`Markdone(${id})`)
+            GrandChild3.setAttribute("id",id)
+            child.appendChild(GrandChild1)
+            child.appendChild(GrandChild2)
+            child.appendChild(GrandChild3)
+        
+            return child;
+            
+        }
+
+        function addTodo(){
+        
+            let title = document.getElementById("title").value;
+            let description = document.getElementById("description").value;
+            document.getElementById("todos").appendChild(createChild(title,description,id++))
+
+        }
+
+        function Markdone(id){
+            document.getElementById(id).innerHTML="Done :)"
+        }
+
+
+    </script>
+
+
+</body>
+</html>
