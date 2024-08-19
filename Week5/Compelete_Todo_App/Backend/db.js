@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const { string } = require("zod")
 
 
-mongoose.connect("mongodb+srv://sparsh121:KRq6PxAffYsUxUt5@cluster0.lvze7me.mongodb.net/todos")
+mongoose.connect("db/url")
 
 const Todoschema = mongoose.Schema({
 
