@@ -28,7 +28,7 @@ const Videos=  [
     {
         thumbnail: "/thumb3.png",
         channelimage: "/channellogo.png",
-      title: "How to Stay Productive || Work from Home",
+      title: "How to Stay Productive || WFH",
       author: "Michael Brown",
       views: "6M",
       timestamp: "6 months ago"
@@ -36,7 +36,7 @@ const Videos=  [
     {
         thumbnail: "/thumb4.png",
         channelimage: "/channellogo.png",
-      title: "Top 5 Web Development Tools || 2024 Edition",
+      title: "Top 5 Web Dev Tools || 2024 Edition",
       author: "Emma Wilson",
       views: "13M",
       timestamp: "2 months ago"
@@ -44,7 +44,7 @@ const Videos=  [
     {
         thumbnail: "/thumb5.png",
         channelimage: "/channellogo.png",
-      title: "Unboxing the Latest Gadgets || Tech Review",
+      title: "Unboxing the Latest Gadgets Tech Review",
       author: "Liam Martinez",
       views: "10M",
       timestamp: "1 week ago"
