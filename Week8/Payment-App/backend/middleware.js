@@ -5,7 +5,9 @@ const authMiddleware = (req,res,next)=>{
 
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(403).json({});
+        return res.status(403).json({
+            message:"Not Authorised (Missing Token)"
+        });
     }
 
     const token = authHeader.split(" ")[1];
@@ -24,7 +26,7 @@ try{
 }
 
 catch(err){
-    return res.status(403).json({});
+    return res.status(403).json({ message: "Something Went Wrong" });
     }
 };
 

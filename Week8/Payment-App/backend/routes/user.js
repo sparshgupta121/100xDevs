@@ -1,11 +1,10 @@
 const express = require("express");
 const zod = require("zod")
-const User = require("../db")
+const {Account, User} = require("../db")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
 const authMiddleware = require('../middleware')
 const JwtSecret= require("../config")
-const Account = require("../db")
 
 const userRouter = express.Router();
 
@@ -49,8 +48,8 @@ userRouter.post("/signup",async (req,res)=>{
         const userId = Newuser._id;
 
         Account.create({
-            userId,
-            balance:(1+(Math.random)*10000)
+            user:userId,
+            balance: Math.floor(Math.random() * 10000) + 1
         })
 
 
@@ -60,12 +59,27 @@ userRouter.post("/signup",async (req,res)=>{
 
     res.json({
         message:"User Created Succesfully",
-        Token:jwttoken
+        Token:jwttoken,
+        firstname:inputBody.firstname
     })
     
 })
+
+const Signinbody = zod.object({
+    username:zod.string().email(),
+    password:zod.string().min(8).max(15)
+})
+
 userRouter.post("/signin", async (req, res) => {
-    const ReqBody = req.body;
+    const {success} = Signinbody.safeParse(req.body);
+
+    if(!success){
+        return res.status(404).json({
+            message:"Inavlid Inputs"
+        })
+    }
+
+    ReqBody=req.body
 
     try {
         const user = await User.findOne({ username: ReqBody.username });
@@ -87,7 +101,9 @@ userRouter.post("/signin", async (req, res) => {
         const token = jwt.sign({ userId: user._id }, JwtSecret,);
 
         res.json({
-            token: token
+            Token: token,
+            firstname:user.firstname
+
         });
     } catch (error) {
         res.status(411).json({
@@ -134,8 +150,8 @@ userRouter.get("/bulk",authMiddleware,async (req,res)=>{
 
     const MatchedUsers = await User.find({
         $or:[
-            {firstname:{$regex:filter}},
-            {lastname:{$regex:filter}}
+            {firstname:{$regex:filter,$options: 'i'}},
+            {lastname:{$regex:filter,$options: 'i'}}
         ]
 
     }).select ("firstname lastname username _id");

@@ -1,51 +1,75 @@
-const express = require("express")
-const Account = require("../db");
+const express = require("express");
+const {Account} = require("../db");
+const zod = require("zod")
 const authMiddleware = require("../middleware");
-const mongoose = require("mongoose")
 
 const AccountRouter = express.Router();
 
-AccountRouter.get("/balance",authMiddleware,async(req,res)=>{
+AccountRouter.get("/balance", authMiddleware, async (req, res) => {
+    try {
+        const accountUser = await Account.findOne({ user: req.userId });
+        
+        if (!accountUser) {
+            return res.status(404).json({ message: "Account not found" });
+        }
+        res.json({ balance: accountUser.balance });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error fetching balance" });
+    }
+});
 
-    const AccountUser =await Account.findOne({
-        userId:req.userId
-    }) 
-
-    res.json({
-        balance:AccountUser.balance
-    })
-
+const transferBody = zod.object({
+    amount:zod.string().refine(n => n > 0, {
+        message: "Number must be positive"
+      }),
+    to:zod.string()
 
 })
 
-AccountRouter.post("/transfer",authMiddleware,async(req,res)=>{
-    const session = await mongoose.startSession();
 
-    session.startTransaction()
-    const {amount,to}=req.body;
+AccountRouter.post("/transfer", authMiddleware, async (req, res) => {
+    const {success} = transferBody.safeParse(req.body);
+
+    if(!success){
+        return res.json({
+            msg:"Enter Valid Amount"
+        })
+    }
+    const { amount, to } = req.body
 
     try {
-        const account = await Account.findOne({ userId: req.userId }).session(session);
-    
+        const account = await Account.findOne({ user: req.userId })
+
+        if (!account) {
+            return res.status(404).json({ message: "Account not found" });
+        }
+
         if (account.balance < amount) {
-            await session.abortTransaction(); 
             return res.status(400).json({ message: "Insufficient balance" });
         }
-    
+
         await Account.updateOne(
-            { userId: req.userId },
+            { user: req.userId },
             { $inc: { balance: -amount } }
-        ).session(session); 
-    
-        await session.commitTransaction();
+        )
+
+        const targetAccount = await Account.findOne({ user: to })
+        if (!targetAccount) {
+            return res.status(404).json({ message: "Target account not found" });
+        }
+
+        await Account.updateOne(
+            { user: to },
+            { $inc: { balance: amount } }
+        )
+
+        res.status(200).json({ message: "Transfer successful" });
     } catch (error) {
-        await session.abortTransaction(); 
-    } finally {
-        session.endSession();
-    }
-
-})
-
+        console.log(error);
+        
+        res.status(500).json({ message: "Error during transfer" });
+    } 
+});
 
 module.exports = AccountRouter;
-
