@@ -60,7 +60,6 @@ userRouter.post("/signup",async (req,res)=>{
     res.json({
         message:"User Created Succesfully",
         Token:jwttoken,
-        firstname:inputBody.firstname
     })
     
 })

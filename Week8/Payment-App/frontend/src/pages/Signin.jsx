@@ -27,10 +27,11 @@ export const Signin = () => {
               password:password
             })
 
+            localStorage.setItem("firstname", resp.data.firstname);
             localStorage.setItem("token",resp.data.Token)
 
 
-            navigate("/Dashboard?firstname="+resp.data.firstname)
+            navigate("/Dashboard")
 
            }
           } label={"Sign in"} />

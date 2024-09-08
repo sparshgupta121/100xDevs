@@ -33,9 +33,10 @@ export const Signup = () => {
             })
             
             localStorage.setItem("token",response.data.Token)
+            localStorage.setItem("firstname",firstname); 
 
 
-            navigate("/dashboard?firstname="+ response.data.firstname)
+            navigate("/dashboard")
 
           }
 

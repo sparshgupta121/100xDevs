@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Appbar } from "../components/Appbar";
 import { Balance } from "../components/Balance";
@@ -29,13 +28,12 @@ export const Dashboard = () => {
         fetchBalance();
     }, []);
 
-    const [SearchParams]=useSearchParams()
-    const firstname = SearchParams.get("firstname")      
+    const firstname = localStorage.getItem("firstname")  
     
     const UserAlphabet = firstname[0]
         
     return <div>
-        <Appbar UserAlphabet={UserAlphabet}/>
+        <Appbar UserAlphabet={UserAlphabet} firstname={firstname}/>
         <div className="m-8">
             <Balance value={balance} />
             <Users />

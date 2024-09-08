@@ -1,17 +1,17 @@
-export const Appbar = (props) => {
-    return <div className="shadow h-14 flex justify-between">
-        <div className="flex flex-col justify-center h-full ml-4">
-            Payment App
-        </div>
-        <div className="flex">
-            <div className="flex flex-col justify-center h-full mr-4">
-                Hello
+import logo from '../assets/logo.png'; // Adjust the path as needed
+
+export const Appbar = ({ firstname, UserAlphabet }) => {
+    return (
+        <div className="shadow-md bg-green-500 text-white flex justify-between items-center p-4">
+            <div className="flex items-center space-x-4">
+                <img src={logo} alt="App Logo" className="h-10" />
             </div>
-            <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
-                <div className="flex flex-col justify-center h-full text-xl">
-                    {props.UserAlphabet}
+            <div className="flex items-center space-x-4">
+                <div className="bg-gray-200 text-gray-800 rounded-full h-12 w-12 flex items-center justify-center text-xl font-semibold">
+                    {UserAlphabet}
                 </div>
+                <span className="text-lg">Hello, {firstname}</span>
             </div>
         </div>
-    </div>
-}
+    );
+};
