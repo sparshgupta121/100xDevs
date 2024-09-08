@@ -1,43 +1,82 @@
-import axios from "axios"
-import { BottomWarning } from "../components/BottomWarning"
-import { Button } from "../components/Button"
-import { Heading } from "../components/Heading"
-import { InputBox } from "../components/InputBox"
-import { SubHeading } from "../components/SubHeading"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import axios from "axios";
+import { BottomWarning } from "../components/BottomWarning";
+import { Button } from "../components/Button";
+import { Heading } from "../components/Heading";
+import { InputBox } from "../components/InputBox";
+import { SubHeading } from "../components/SubHeading";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
+
 export const Signin = () => {
+	const navigate = useNavigate();
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
+	return (
+		<div className='bg-gradient-to-r from-green-100 to-gray-200 h-screen flex items-center justify-center'>
+			<div className='flex flex-col items-center bg-white rounded-lg shadow-lg px-4 py-3 max-w-xs sm:max-w-sm w-full'>
+				<div className='flex justify-center'>
+					<img
+						src={logo}
+						alt='App Logo'
+						className='m-2'
+					/>
+				</div>
 
-  const [username,setusername]= useState("")
-  const [password,setPassword]= useState("")
+				<Heading label={"Sign in"} />
+				<SubHeading label={"Enter your credentials"} />
 
-    return <div className="bg-slate-300 h-screen flex justify-center">
-    <div className="flex flex-col justify-center">
-      <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
-        <Heading label={"Sign in"} />
-        <SubHeading label={"Enter your credentials to access your account"} />
-        <InputBox onChange={e=>setusername(e.target.value)} placeholder="example@gmail.com" label={"Email"} />
-        <InputBox onChange={e=>setPassword(e.target.value)} placeholder="123456" label={"Password"} />
-        <div className="pt-4">
-          <Button onClick={async()=>{
-            const resp =await axios.post("http://localhost:3000/api/v1/user/signin",{
-              username:username,
-              password:password
-            })
+				<div className='w-full space-y-2 sm:space-y-3'>
+					<InputBox
+						label='Email'
+						type='email'
+						placeholder='example@gmail.com'
+						onChange={(e) => setUsername(e.target.value)}
+					/>
 
-            localStorage.setItem("firstname", resp.data.firstname);
-            localStorage.setItem("token",resp.data.Token)
+					<InputBox
+						label='Password'
+						type='password'
+						placeholder='********'
+						onChange={(e) => setPassword(e.target.value)}
+					/>
 
+					<Button
+						onClick={async () => {
+							try {
+								const resp = await axios.post("http://localhost:3000/api/v1/user/signin", {
+									username,
+									password,
+								});
+								console.log(resp);
 
-            navigate("/Dashboard")
+								alert(resp.data.message);
+								localStorage.setItem("firstname", resp.data.firstname);
+								localStorage.setItem("token", resp.data.Token);
+								if (resp.data.message == "Sign In Successfully") {
+									navigate("/dashboard");
+								}
+							} catch (error) {
+								console.error("Signin error:", error);
+							}
+						}}
+						label={"Sign in"}
+					/>
+				</div>
 
-           }
-          } label={"Sign in"} />
-        </div>
-        <BottomWarning label={"Don't have an account?"} buttonText={"Sign up"} to={"/signup"} />
-      </div>
-    </div>
-  </div>
-}
+				<BottomWarning
+					label={"Don't have an account?"}
+					buttonText={"Sign up"}
+					to={"/signup"}
+				/>
+
+				<BottomWarning
+					label={"Forgot Password? "}
+					buttonText={"Reset Here"}
+					to={"/resetpassword"}
+				/>
+			</div>
+		</div>
+	);
+};

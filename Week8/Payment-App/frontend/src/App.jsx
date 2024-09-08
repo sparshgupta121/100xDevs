@@ -4,6 +4,9 @@ import { Signin } from "./pages/Signin";
 import { Signup } from "./pages/Signup";
 import { Dashboard } from "./pages/Dashboard";
 import { SendMoney } from "./pages/SendMoney";
+import { UpdateProfile } from "./pages/UpdateProfile";
+import { ContactPage } from "./pages/Contact";
+import { ResetPassword } from "./pages/ResetPassword.jsx";
 
 function App() {
 
@@ -16,6 +19,9 @@ function App() {
           <Route path="/signin" element={<Signin/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>
           <Route path="/send" element={<SendMoney/>}></Route>
+          <Route path="/updateprofile" element={<UpdateProfile/>}></Route>
+          <Route path="/contact" element={<ContactPage/>}></Route>
+          <Route path="/resetpassword" element={<ResetPassword />}></Route>
         </Routes>      
       </BrowserRouter>
     </div>

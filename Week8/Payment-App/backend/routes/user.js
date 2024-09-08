@@ -23,7 +23,7 @@ userRouter.post("/signup",async (req,res)=>{
     const {success} = reqbody.safeParse(inputBody)
 
     if(!success){
-        return res.status(411).json({
+        return res.json({
             message: "Incorrect inputs"
         })
     }
@@ -33,8 +33,8 @@ userRouter.post("/signup",async (req,res)=>{
     })
 
     if(existingUser){
-        return res.status(409).json({
-            message: "Email already taken"
+        return res.json({
+            message: "Email already taken, Please Signin"
         })
     }
 
@@ -66,14 +66,14 @@ userRouter.post("/signup",async (req,res)=>{
 
 const Signinbody = zod.object({
     username:zod.string().email(),
-    password:zod.string().min(8).max(15)
+    password:zod.string().min(6).max(15)
 })
 
 userRouter.post("/signin", async (req, res) => {
     const {success} = Signinbody.safeParse(req.body);
 
     if(!success){
-        return res.status(404).json({
+        return res.json({
             message:"Inavlid Inputs"
         })
     }
@@ -84,7 +84,7 @@ userRouter.post("/signin", async (req, res) => {
         const user = await User.findOne({ username: ReqBody.username });
 
         if (!user) {
-            return res.status(404).json({
+            return res.json({
                 message: "User does not exist"
             });
         }
@@ -92,7 +92,7 @@ userRouter.post("/signin", async (req, res) => {
         const isMatch = await bcrypt.compare(ReqBody.password, user.password);
 
         if (!isMatch) {
-            return res.status(401).json({
+            return res.json({
                 message: "Invalid credentials"
             });
         }
@@ -101,12 +101,13 @@ userRouter.post("/signin", async (req, res) => {
 
         res.json({
             Token: token,
-            firstname:user.firstname
+            firstname:user.firstname,
+            message:"Sign In Successfully"
 
         });
     } catch (error) {
-        res.status(411).json({
-            message: "Error while logging in"
+        res.json({
+            message: "Error while Sign In"
         });
     }
 });
@@ -114,7 +115,7 @@ userRouter.post("/signin", async (req, res) => {
 const updatedBody = zod.object({
     firstname:zod.string().optional(),
     lastname:zod.string().optional(),
-    password:zod.string().min(8).max(12).optional()
+    password:zod.string().min(6).max(12).optional()
 })
 
 userRouter.put("/",authMiddleware,async(req,res)=>{
@@ -129,6 +130,7 @@ userRouter.put("/",authMiddleware,async(req,res)=>{
         })
     }
 
+    try{
     if (req.body.password) {
         req.body.password = await bcrypt.hash(req.body.password, 2);
     }
@@ -137,10 +139,17 @@ userRouter.put("/",authMiddleware,async(req,res)=>{
         { $set: req.body })
 
     res.json({
-        msg:"Info Updated"
+        message:"Info Updated"
     })
 
-})
+} catch(error){
+    res.json({
+        message:"Error Occoured"
+    })
+}
+}
+
+)
 
 userRouter.get("/bulk",authMiddleware,async (req,res)=>{
 
@@ -168,5 +177,42 @@ catch (error) {
 
 });
 
+const ResetBody = zod.object({
+    username: zod.string().email(),
+    password: zod.string().min(6).max(15)
+});
+
+userRouter.put("/resetpassword", async (req, res) => {
+    const { success } = ResetBody.safeParse(req.body);
+
+    if (!success) {
+        return res.status(400).json({
+            message: "Invalid Inputs",
+        });
+    }
+
+    try {
+        const existingUser = await User.findOne({ username: req.body.username });
+
+        if (!existingUser) {
+            return res.status(404).json({
+                message: "No Such User Exists in DB, Kindly Sign In"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(req.body.password,2); 
+
+    
+        await User.findByIdAndUpdate(existingUser._id, { password: hashedPassword });
+
+        return res.status(200).json({
+            message: "Password Reset Successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error Occurred",
+        });
+    }
+});
 
 module.exports= userRouter;

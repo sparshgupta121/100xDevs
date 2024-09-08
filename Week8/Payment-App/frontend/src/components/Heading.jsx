@@ -1,7 +1,3 @@
 export function Heading({ label }) {
-    return (
-        <div className="text-4xl font-bold text-gray-800 py-6">
-            {label}
-        </div>
-    );
+	return <div className='font-bold text-3xl pt-4 text-center'>{label}</div>;
 }
