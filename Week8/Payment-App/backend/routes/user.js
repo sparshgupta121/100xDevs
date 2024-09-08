@@ -4,8 +4,7 @@ const {Account, User} = require("../db")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
 const authMiddleware = require('../middleware')
-const JwtSecret= require("../config")
-
+const JwtSecret= process.env.JWT_SECRET
 const userRouter = express.Router();
 
 const reqbody = zod.object({

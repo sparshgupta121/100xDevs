@@ -1,5 +1,6 @@
+const mongoURI = process.env.MONGO_URI
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/PaymentApp")
+mongoose.connect(mongoURI)
 
 const userSchema = new mongoose.Schema({
     firstname: {
