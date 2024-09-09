@@ -11,8 +11,8 @@ const reqbody = zod.object({
     firstname:zod.string(),
     lastname:zod.string(),
     username:zod.string().email(),
-    password:zod.string().min(8, { message: "Password must be at least 8 characters long" })
-    .max(12, { message: "Password must be less than 12 characters" })
+    password:zod.string().min(6)
+    .max(15)
 
 })
 
@@ -114,7 +114,7 @@ userRouter.post("/signin", async (req, res) => {
 const updatedBody = zod.object({
     firstname:zod.string().optional(),
     lastname:zod.string().optional(),
-    password:zod.string().min(6).max(12).optional()
+    password:zod.string().min(6).max(15).optional()
 })
 
 userRouter.put("/",authMiddleware,async(req,res)=>{
