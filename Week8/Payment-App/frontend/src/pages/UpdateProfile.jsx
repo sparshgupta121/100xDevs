@@ -7,6 +7,8 @@ import { Heading } from "../components/Heading";
 import { useNavigate } from "react-router-dom";
 import { BottomWarning } from "../components/BottomWarning";
 import logo from "../assets/logo.png"
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export const UpdateProfile = () => {
 	const navigate = useNavigate();
@@ -21,7 +23,7 @@ export const UpdateProfile = () => {
 			if (lastname) updateData.lastname = lastname;
 			if (password) updateData.password = password;
 
-			const response = await axios.put("http://localhost:3000/api/v1/user", updateData, {
+			const response = await axios.put(`${apiUrl}api/v1/user`, updateData, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("token")}`,
 				},

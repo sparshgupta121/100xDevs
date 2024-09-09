@@ -7,6 +7,8 @@ import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export const ResetPassword = () => {
 	const [username, setUsername] = useState("");
@@ -18,7 +20,7 @@ export const ResetPassword = () => {
 		e.preventDefault();
 
 		try {
-			const response = await axios.put("http://localhost:3000/api/v1/user/resetpassword", {
+			const response = await axios.put(`${apiUrl}api/v1/user/resetpassword`, {
 				username,
 				password,
 			});

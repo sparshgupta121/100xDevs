@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Appbar } from "../components/appbar";
+import { Appbar } from "../components/Appbar";
 import { Balance } from "../components/Balance";
 import { Users } from "../components/Users";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export const Dashboard = () => {
 	const [balance, setBalance] = useState(null);
@@ -10,7 +11,7 @@ export const Dashboard = () => {
 	const fetchBalance = async () => {
 		try {
 			const token = localStorage.getItem("token");
-			const response = await axios.get("http://localhost:3000/api/v1/account/balance", {
+			const response = await axios.get(`${apiUrl}api/v1/account/balance`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

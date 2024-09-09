@@ -7,6 +7,8 @@ import { SubHeading } from "../components/SubHeading";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export const Signin = () => {
 	const navigate = useNavigate();
@@ -45,7 +47,7 @@ export const Signin = () => {
 					<Button
 						onClick={async () => {
 							try {
-								const resp = await axios.post("http://localhost:3000/api/v1/user/signin", {
+								const resp = await axios.post(`${apiUrl}api/v1/user/signin`, {
 									username,
 									password,
 								});
