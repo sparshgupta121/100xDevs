@@ -40,7 +40,7 @@ export const Signin = () => {
 					<InputBox
 						label='Password'
 						type='password'
-						placeholder='********'
+						placeholder='Password Must Between 6-15 Characters'
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 
