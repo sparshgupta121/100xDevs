@@ -42,3 +42,23 @@ if (canVote) {
 else {
     console.log("can't vote");
 }
+var directions;
+(function (directions) {
+    directions["up"] = "\u2191";
+    directions["down"] = "\u2193";
+    directions["left"] = "\u2190";
+    directions["right"] = "\u2192";
+})(directions || (directions = {}));
+function doSomething(Keypressed) {
+}
+doSomething(directions.up);
+doSomething(directions.down);
+console.log(directions.left);
+console.log(directions.right);
+function generics(input) {
+    return input;
+}
+const strarr = generics(["SparshGuptaCoder", "hello", "What'sUp", "Ki-Haal-Chal"]);
+console.log(strarr[2].toUpperCase());
+const numarr = generics([1, 2, 520, 3, 5, 74, 7, 85, 2, 0, 584, 8, 52, 0]);
+console.log(numarr[5]);

@@ -71,3 +71,30 @@ else{
     console.log("can't vote");
     
 }
+
+enum directions{
+    up = "↑",
+    down = "↓",
+    left= "←",
+    right = "→"
+}
+
+type Newtype = "up" | "down" | "left" | "right"
+
+function doSomething(Keypressed:directions){
+}
+
+doSomething(directions.up)
+doSomething(directions.down);
+console.log(directions.left);
+console.log(directions.right);
+
+function generics<type>(input:type):type{
+    return input
+}
+
+const strarr = generics<string[]>(["SparshGuptaCoder","hello","What'sUp","Ki-Haal-Chal"])
+console.log(strarr[2].toUpperCase());
+
+const numarr = generics<number[]>([1,2,520,3,5,74,7,85,2,0,584,8,52,0])
+console.log(numarr[5]);
